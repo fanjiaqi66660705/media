@@ -14,9 +14,8 @@ export async function POST(req: Request) {
   try {
     // 弱模型无 JSON 约束能力：先用 generateText 拿纯文本，再在应用层容错解析
     const { text } = await generateText({
-      model: provider.chat(process.env.LLM_MODEL ?? "deepseek-chat", {
-        maxOutputTokens: 4000,
-      }),
+      model: provider.chat(process.env.LLM_MODEL ?? "deepseek-chat"),
+      maxOutputTokens: 4000,
       system: COMMENTS_SYSTEM,
       prompt: `粉丝评论数据：
 ${comments}

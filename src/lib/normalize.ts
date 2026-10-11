@@ -22,6 +22,8 @@ export function extractJson(raw: string): unknown {
   if (start > 0) text = text.slice(start)
   const end = Math.max(text.lastIndexOf("}"), text.lastIndexOf("]"))
   if (end !== -1) text = text.slice(0, end + 1)
+  // 兜底清理：对象/数组字面量尾逗号（弱模型常见）
+  text = text.replace(/,(\s*[}\]])/g, "$1")
   try {
     return JSON.parse(text)
   } catch {

@@ -42,13 +42,13 @@ const stats = [
 
 export default function Home() {
   return (
-    <div className="p-8">
-      <header className="fade-up mb-10">
+    <div className="p-5 sm:p-8">
+      <header className="fade-up mb-8 sm:mb-10">
         <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200/70 bg-emerald-50/80 px-3 py-1 text-xs font-medium text-emerald-700">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
           AI 新媒体全链路运营工作台
         </span>
-        <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight">
+        <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
           选题 · 排版 · 复盘
           <br />
           <span className="text-gradient">一个工作台搞定新媒体运营</span>
@@ -57,7 +57,7 @@ export default function Home() {
           面向 14 万粉丝团属新媒体矩阵，把选题策划、智能排版、评论复盘串成一条 AI 流水线。
         </p>
 
-        <div className="mt-6 flex flex-wrap gap-3">
+        <div className="mt-6 grid grid-cols-1 gap-3 min-[420px]:grid-cols-3 sm:flex sm:flex-wrap sm:gap-3">
           {stats.map((s) => {
             const Icon = s.icon
             return (
@@ -86,7 +86,7 @@ export default function Home() {
               key={m.href}
               href={m.href}
               style={{ animationDelay: `${0.08 * (i + 1)}s` }}
-              className={`glass-card group fade-up relative overflow-hidden rounded-2xl p-6 ring-1 ring-transparent transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl ${m.glow} ${m.ring}`}
+              className={`glass-card group fade-up relative overflow-hidden rounded-2xl p-5 ring-1 ring-transparent transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl sm:p-6 ${m.glow} ${m.ring}`}
             >
               <div className="flex items-start justify-between">
                 <span

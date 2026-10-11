@@ -135,7 +135,7 @@ export default function CommentsPage() {
     result.sentiment.negative === 0
 
   return (
-    <div className="p-8">
+    <div className="p-5 sm:p-8">
       <header className="mb-6">
         <h1 className="text-gradient text-2xl font-bold">评论互动复盘助手</h1>
         <p className="mt-1 text-sm text-slate-500">

@@ -11,6 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="zh-CN">
       <body className="antialiased">
+        <div className="aurora-bg" aria-hidden />
         <div className="flex h-screen">
           <Sidebar />
           <main className="flex-1 overflow-auto">{children}</main>

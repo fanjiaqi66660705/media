@@ -218,7 +218,7 @@ export default function TypesetPage() {
   return (
     <div className="p-8">
       <header className="mb-6">
-        <h1 className="text-2xl font-bold text-slate-900">智能排版配图助手</h1>
+        <h1 className="text-gradient text-2xl font-bold">智能排版配图助手</h1>
         <p className="mt-1 text-sm text-slate-500">
           草稿自动结构化 + 免费可商用配图推荐
         </p>
@@ -234,14 +234,14 @@ export default function TypesetPage() {
             <textarea
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
-              className="h-80 w-full resize-none rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500"
+              className="h-80 w-full resize-none rounded-lg border border-slate-200 bg-white/70 px-3 py-2 text-sm outline-none backdrop-blur transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/25"
               placeholder="粘贴你的纯文本草稿…"
             />
           </div>
           <button
             onClick={generate}
             disabled={loading || !draft.trim()}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn-gradient flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? (
               <>
@@ -318,14 +318,14 @@ export default function TypesetPage() {
           {result && (
             <div className="space-y-4">
               {/* 标题 */}
-              <div className="rounded-xl border border-slate-200 p-4">
+              <div className="glass-card rounded-xl p-4">
                 <h2 className="text-lg font-bold text-slate-900">
                   {result.title}
                 </h2>
               </div>
 
               {/* 引言 */}
-              <div className="rounded-xl border border-slate-200 p-4">
+              <div className="glass-card rounded-xl p-4">
                 <div className="flex items-center gap-1.5 text-sm font-semibold text-emerald-700">
                   <PenLine className="h-4 w-4" />
                   引言
@@ -351,7 +351,7 @@ export default function TypesetPage() {
 
               {/* 分论点 */}
               {result.arguments.map((arg, i) => (
-                <div key={i} className="rounded-xl border border-slate-200 p-4">
+                <div key={i} className="glass-card rounded-xl p-4">
                   <div className="flex items-start gap-2">
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-semibold text-emerald-700">
                       {i + 1}
@@ -392,7 +392,7 @@ export default function TypesetPage() {
               ))}
 
               {/* 结尾 */}
-              <div className="rounded-xl border border-slate-200 p-4">
+              <div className="glass-card rounded-xl p-4">
                 <div className="flex items-center gap-1.5 text-sm font-semibold text-emerald-700">
                   <MessageSquare className="h-4 w-4" />
                   结尾

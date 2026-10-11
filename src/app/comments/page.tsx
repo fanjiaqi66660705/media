@@ -137,7 +137,7 @@ export default function CommentsPage() {
   return (
     <div className="p-8">
       <header className="mb-6">
-        <h1 className="text-2xl font-bold text-slate-900">评论互动复盘助手</h1>
+        <h1 className="text-gradient text-2xl font-bold">评论互动复盘助手</h1>
         <p className="mt-1 text-sm text-slate-500">
           粘贴粉丝评论，AI 自动做情感分析、提炼 3 个痛点并生成 3 条高情商回复话术
         </p>
@@ -153,14 +153,14 @@ export default function CommentsPage() {
             <textarea
               value={comments}
               onChange={(e) => setComments(e.target.value)}
-              className="h-80 w-full resize-none rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500"
+              className="h-80 w-full resize-none rounded-lg border border-slate-200 bg-white/70 px-3 py-2 text-sm outline-none backdrop-blur transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/25"
               placeholder="每行一条评论，或粘贴后台导出的评论数据…"
             />
           </div>
           <button
             onClick={analyze}
             disabled={loading || !comments.trim()}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn-gradient flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? (
               <>
@@ -239,7 +239,7 @@ export default function CommentsPage() {
           {result && (
             <>
               {/* A. 情感分布 */}
-              <div className="rounded-xl border border-slate-200 p-4">
+              <div className="glass-card rounded-xl p-4">
                 <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
                   <Heart className="h-4 w-4 text-rose-500" />
                   情感分布
@@ -279,7 +279,7 @@ export default function CommentsPage() {
               </div>
 
               {/* B. 痛点提炼 */}
-              <div className="rounded-xl border border-slate-200 p-4">
+              <div className="glass-card rounded-xl p-4">
                 <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
                   <AlertCircle className="h-4 w-4 text-amber-500" />
                   痛点提炼
@@ -315,7 +315,7 @@ export default function CommentsPage() {
               </div>
 
               {/* C. 回复话术 */}
-              <div className="rounded-xl border border-slate-200 p-4">
+              <div className="glass-card rounded-xl p-4">
                 <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
                   <MessageSquare className="h-4 w-4 text-emerald-600" />
                   回复话术

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f6f8fc;
+  --foreground: #0f172a;
 }
 
 @theme inline {
@@ -12,15 +12,131 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ---------- 页面极光底色：固定层，随滚动不动 ---------- */
+.aurora-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(52, 211, 153, 0.16), transparent 60%),
+    radial-gradient(900px 500px at -10% 30%, rgba(96, 165, 250, 0.14), transparent 60%),
+    radial-gradient(800px 600px at 55% 110%, rgba(167, 139, 250, 0.13), transparent 60%),
+    var(--background);
+}
+
+.aurora-bg::before,
+.aurora-bg::after {
+  content: "";
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.55;
+}
+
+.aurora-bg::before {
+  width: 420px;
+  height: 420px;
+  left: 12%;
+  top: -160px;
+  background: linear-gradient(135deg, #6ee7b7, #60a5fa);
+  animation: drift 18s ease-in-out infinite alternate;
+}
+
+.aurora-bg::after {
+  width: 520px;
+  height: 520px;
+  right: -140px;
+  bottom: -200px;
+  background: linear-gradient(135deg, #c4b5fd, #f0abfc);
+  animation: drift 22s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(60px, 40px, 0) scale(1.15);
+  }
+}
+
+/* ---------- 通用小工具 ---------- */
+
+/* 渐变标题文字 */
+.text-gradient {
+  background: linear-gradient(120deg, #0f766e 0%, #059669 35%, #2563eb 75%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 毛玻璃卡片 */
+.glass-card {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 12px 32px -12px rgba(15, 23, 42, 0.12);
+}
+
+/* 渐变主按钮 */
+.btn-gradient {
+  background: linear-gradient(120deg, #10b981, #0ea5e9 60%, #6366f1);
+  background-size: 180% 180%;
+  color: #fff;
+  box-shadow: 0 8px 20px -8px rgba(16, 185, 129, 0.55);
+  transition: background-position 0.5s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.btn-gradient:hover:not(:disabled) {
+  background-position: 100% 50%;
+  box-shadow: 0 10px 26px -8px rgba(14, 165, 233, 0.6);
+}
+
+.btn-gradient:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* 入场动画 */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fade-up 0.5s ease both;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.35);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.55);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
 }

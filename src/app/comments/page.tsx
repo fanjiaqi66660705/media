@@ -13,6 +13,7 @@ import {
   Quote,
 } from "lucide-react"
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts"
+import { generateCommentsResult } from "@/lib/ai-handlers"
 
 type Sentiment = {
   positive: number
@@ -81,31 +82,12 @@ export default function CommentsPage() {
     setError("")
     setResult(null)
     try {
-      const res = await fetch("/api/comments", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ comments }),
-      })
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}))
-        throw new Error(data.error || `请求失败 (${res.status})`)
-      }
-      const data = await res.json()
-      const normalized: CommentsResult = {
-        sentiment: data.sentiment ?? {
-          positive: 0,
-          neutral: 0,
-          negative: 0,
-          summary: "",
-        },
-        painPoints: data.painPoints ?? [],
-        replies: data.replies ?? [],
-      }
-      setResult(normalized)
+      const data = await generateCommentsResult({ comments })
+      setResult(data)
       const item: HistoryItem = {
         id: Date.now().toString(),
         commentsPreview: comments.slice(0, 40),
-        sentimentSummary: normalized.sentiment.summary,
+        sentimentSummary: data.sentiment.summary,
         timestamp: Date.now(),
       }
       const next = [item, ...history].slice(0, 10)
@@ -115,7 +97,7 @@ export default function CommentsPage() {
       setError(
         e instanceof Error
           ? e.message
-          : "分析失败，请检查 .env.local 中的 LLM_API_KEY 配置",
+          : "分析失败，请检查 .env.local 中的 NEXT_PUBLIC_LLM_API_KEY 配置",
       )
     } finally {
       setLoading(false)

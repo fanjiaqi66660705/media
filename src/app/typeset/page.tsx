@@ -13,6 +13,7 @@ import {
   RotateCcw,
   ExternalLink,
 } from "lucide-react"
+import { generateTypesetResult, searchImages } from "@/lib/ai-handlers"
 
 // 本地渲染类型（后端 TypesetResult 的前端镜像；arguments 作为 key 访问，类型别名另起）
 type IntroSection = { content: string; imageKeywords: string[] }
@@ -77,16 +78,7 @@ export default function TypesetPage() {
     setImageLoading({})
     setImageNotice({})
     try {
-      const res = await fetch("/api/typeset", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ draft }),
-      })
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}))
-        throw new Error(data.error || `请求失败 (${res.status})`)
-      }
-      const data: TypesetResult = await res.json()
+      const data = await generateTypesetResult({ draft })
       setResult(data)
       const item: HistoryItem = {
         id: Date.now().toString(),
@@ -101,7 +93,7 @@ export default function TypesetPage() {
       setError(
         e instanceof Error
           ? e.message
-          : "生成失败，请检查 .env.local 中的 LLM_API_KEY 配置",
+          : "生成失败，请检查 .env.local 中的 NEXT_PUBLIC_LLM_API_KEY 配置",
       )
     } finally {
       setLoading(false)
@@ -128,10 +120,10 @@ export default function TypesetPage() {
       return next
     })
     try {
-      const res = await fetch(`/api/images?query=${encodeURIComponent(keyword)}`)
-      const data = await res.json().catch(() => ({ photos: [] }))
-      if (data.notice) {
-        setImageNotice((s) => ({ ...s, [key]: data.notice }))
+      const data = await searchImages(keyword)
+      const notice = data.notice
+      if (notice) {
+        setImageNotice((s) => ({ ...s, [key]: notice }))
       }
       setImageResults((s) => ({ ...s, [key]: data.photos ?? [] }))
     } catch {
@@ -179,7 +171,7 @@ export default function TypesetPage() {
                 {notice && (
                   <p className="mt-1.5 rounded-md bg-amber-50 px-2 py-1 text-xs text-amber-700">
                     {notice}。可先用关键词自行检索，或在 .env.local 添加
-                    PEXELS_API_KEY（参考 .env.example）。
+                    NEXT_PUBLIC_PEXELS_API_KEY（参考 .env.example）。
                   </p>
                 )}
                 {photos && photos.length === 0 && !isLoading && !notice && (

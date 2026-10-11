@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import { Sparkles, Copy, Check, Loader2, Clock, RotateCcw } from "lucide-react"
+import { generateTopicResult } from "@/lib/ai-handlers"
 
 type Title = { formula: string; text: string }
 type Direction = {
@@ -52,33 +53,17 @@ export default function TopicPage() {
     setError("")
     setResult(null)
     try {
-      const res = await fetch("/api/topic", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic, tone }),
-      })
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}))
-        throw new Error(data.error || `请求失败 (${res.status})`)
-      }
-      const data = await res.json()
+      const data = await generateTopicResult({ topic, tone })
       const normalized: TopicResult = {
-        directions: (data.directions ?? []).map(
-          (d: {
-            direction: string
-            angle: string
-            clickRateReason: string
-            titles?: Record<string, string>
-          }) => ({
-            direction: d.direction,
-            angle: d.angle,
-            clickRateReason: d.clickRateReason,
-            titles: Object.keys(FORMULAS).map((key) => ({
-              formula: FORMULAS[key],
-              text: d.titles?.[key] ?? "",
-            })),
-          }),
-        ),
+        directions: data.directions.map((d) => ({
+          direction: d.direction,
+          angle: d.angle,
+          clickRateReason: d.clickRateReason,
+          titles: (Object.keys(FORMULAS) as Array<keyof typeof d.titles>).map((key) => ({
+            formula: FORMULAS[key],
+            text: d.titles[key] ?? "",
+          })),
+        })),
       }
       setResult(normalized)
       const item: HistoryItem = {
@@ -95,7 +80,7 @@ export default function TopicPage() {
       setError(
         e instanceof Error
           ? e.message
-          : "生成失败，请检查 .env.local 中的 LLM_API_KEY 配置",
+          : "生成失败，请检查 .env.local 中的 NEXT_PUBLIC_LLM_API_KEY 配置",
       )
     } finally {
       setLoading(false)

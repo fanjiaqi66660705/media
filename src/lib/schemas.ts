@@ -17,8 +17,8 @@ export const topicResultSchema = z.object({
         }),
       }),
     )
-    .length(5)
-    .describe("5 个选题方向"),
+    .min(3)
+    .describe("3-5 个选题方向"),
 })
 
 export type TopicResult = z.infer<typeof topicResultSchema>
@@ -82,8 +82,8 @@ export const commentsResultSchema = z.object({
         evidence: z.string().describe("来自评论的证据/原话摘要"),
       }),
     )
-    .length(3)
-    .describe("3 个粉丝最关心的痛点"),
+    .min(1)
+    .describe("1-3 个粉丝最关心的痛点"),
   replies: z
     .array(
       z.object({
@@ -92,8 +92,8 @@ export const commentsResultSchema = z.object({
         content: z.string().describe("回复话术全文"),
       }),
     )
-    .length(3)
-    .describe("3 条高情商官方回复"),
+    .min(1)
+    .describe("1-3 条高情商官方回复"),
 })
 
 export type CommentsResult = z.infer<typeof commentsResultSchema>
